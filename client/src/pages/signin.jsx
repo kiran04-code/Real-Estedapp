@@ -7,6 +7,22 @@ const Signin = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error("Signup failed", err);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-rose-300 px-4">
@@ -67,7 +83,7 @@ const Signin = () => {
 
         <div className="mt-6 flex items-center justify-center space-x-3">
           <button
-            onClick={handleGoogleLogin}
+  
             className="flex items-center justify-center gap-2 border border-rose-700 text-rose-700 font-semibold px-4 py-2 rounded-md hover:bg-rose-700 hover:text-white transition"
           >
             {/* Google icon SVG */}
