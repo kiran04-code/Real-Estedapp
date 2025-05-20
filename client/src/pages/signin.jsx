@@ -1,28 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Signin = () => {
-  const [form, setForm] = useState();
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
- const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error("Signup failed", err);
-    }
-  };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-rose-300 px-4">
@@ -30,8 +9,7 @@ const Signin = () => {
         <h1 className="text-3xl font-bold text-rose-700 mb-6 text-center">
           Sign In
         </h1>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form className="space-y-5">
           <div>
             <label htmlFor="email" className="block mb-1 font-semibold text-rose-700">
               Email
@@ -40,8 +18,7 @@ const Signin = () => {
               type="email"
               name="email"
               id="email"
-              value={form.email}
-              onChange={handleChange}
+             
               required
               className="w-full px-4 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-700"
               placeholder="you@example.com"
@@ -56,8 +33,7 @@ const Signin = () => {
               type="password"
               name="password"
               id="password"
-              value={form.password}
-              onChange={handleChange}
+            
               required
               className="w-full px-4 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-700"
               placeholder="Enter your password"
