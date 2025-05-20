@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 
 const Signup = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Your signup logic here
-    alert(`Signing up ${form.name} with email: ${form.email}`);
-  };
-
-  const handleGoogleSignup = () => {
-    // Your Google signup/login logic here
-    alert("Signup with Google clicked");
+    const res = await fetch("/api/signup",{
+     method:"POST",
+     
+      headers:{
+      "Content-type":"application/json"
+     },
+     body:JSON.stringify(from)
+    
+    })
+    const data = await res.json()
+    console.log(data)
   };
 
   return (
@@ -97,7 +96,6 @@ const Signup = () => {
 
         <div className="mt-6 flex items-center justify-center space-x-3">
           <button
-            onClick={handleGoogleSignup}
             className="flex items-center justify-center gap-2 border border-rose-700 text-rose-700 font-semibold px-4 py-2 rounded-md hover:bg-rose-700 hover:text-white transition"
           >
             {/* Google icon SVG */}

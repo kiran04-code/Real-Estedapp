@@ -1,25 +1,12 @@
 import React, { useState } from "react";
 
 const Signin = () => {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const [form, setForm] = useState();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Your login logic here
-    alert(`Logging in with email: ${form.email}`);
-  };
-
-  const handleGoogleLogin = () => {
-    // Your Google login logic here
-    alert("Login with Google clicked");
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-rose-300 px-4">

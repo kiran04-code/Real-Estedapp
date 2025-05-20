@@ -19,7 +19,15 @@ export default [
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+    },  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9005',
+        changeOrigin: true,
+        secure: false,
+      },
     },
+  },
     rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
@@ -30,4 +38,5 @@ export default [
       ],
     },
   },
+
 ]
