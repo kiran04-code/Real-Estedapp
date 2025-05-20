@@ -68,7 +68,7 @@ export default function PropertyCard() {
     // Add more objects as needed
   ];
 return (
-  <div className="w-full p-15 h-[380px] overflow-y-auto mt-10">
+  <div className="w-full p-15 h-[380px] overflow-y-auto mt-10 mb-10">
     {/* Mapping the cards */}
     {data.map((item, index) => (
       <div

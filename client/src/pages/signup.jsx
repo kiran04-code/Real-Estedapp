@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 const Signup2 = () => {
   const [form, setForm] = useState({});
-
+  const [Loading ,setLoading] = useState(false)
+  const [error ,seterror] = useState({})
+ 
   const handleChange = (e) => {
+
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: {
@@ -17,9 +21,16 @@ const Signup2 = () => {
         body: JSON.stringify(form),
       });
       const data = await res.json();
+      if(data.success == false){
+        setLoading(false)
+        seterror(data.message)
+        return 
+      }
       console.log(data);
+      setLoading(false)
     } catch (err) {
-     
+     setLoading(false)
+     seterror(error.message)
     }
   };
 
@@ -73,10 +84,12 @@ const Signup2 = () => {
           </div>
 
           <button
-            type="submit"
+            type="submit" disabled={Loading}
             className="w-full bg-rose-700 text-white font-semibold py-2 rounded-md hover:bg-rose-800 transition"
           >
-            Sign Up
+            {
+              Loading? "Loding....":" Sign In"
+             }
           </button>
         </form>
 
@@ -84,7 +97,7 @@ const Signup2 = () => {
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
             <a href="/signin" className="text-rose-700 font-semibold hover:underline">
-              Sign In
+             Sign In
             </a>
           </p>
         </div>
@@ -99,6 +112,7 @@ const Signup2 = () => {
             Signup with Google
           </button>
         </div>
+       
       </div>
     </div>
   );
