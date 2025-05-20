@@ -1,9 +1,14 @@
 import React from "react"
-
+import Navbar from "../components/navbar"
+import Footer from "../components/footer"
+import PropertyCard from "../components/houses"
 const Home = ()=>{
     return(
-        <div><h1>Home Page </h1>
-         <a href="/About">About</a></div>
+        <div>
+            <Navbar/>
+            <PropertyCard/>
+            <Footer/>
+        </div>
     )
 }
 
