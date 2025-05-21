@@ -1,15 +1,36 @@
 import React from "react";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Signin = () => {
-  
-
+  const navigate = useNavigate()
+  const [fromData,setFromData] = useState({})
+  const  handleChange = (e)=>{
+  setFromData({...fromData,[e.target.id]:e.target.value})
+  }
+  const handleonsubmit = async (e)=>{
+    e.preventDefault();
+   try {
+    const res = await fetch("api/signin",{
+      method:"POST",
+      headers:{
+        "Content-type" :"application/json"
+      },
+      body:JSON.stringify(fromData)
+    }) 
+    const data = await res.json()
+    console.log(data)
+    navigate("/")
+   } catch (error) {
+    
+   }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-rose-300 px-4">
       <div className="bg-white  shadow-lg p-8 max-w-md w-full">
         <h1 className="text-3xl font-bold text-rose-700 mb-6 text-center">
           Sign In
         </h1>
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleonsubmit}>
           <div>
             <label htmlFor="email" className="block mb-1 font-semibold text-rose-700">
               Email
@@ -18,13 +39,13 @@ const Signin = () => {
               type="email"
               name="email"
               id="email"
-             
+              value ={fromData.email}
+              onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-700"
               placeholder="you@example.com"
             />
           </div>
-
           <div>
             <label htmlFor="password" className="block mb-1 font-semibold text-rose-700">
               Password
@@ -33,7 +54,8 @@ const Signin = () => {
               type="password"
               name="password"
               id="password"
-            
+              value ={fromData.password}
+              onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-700"
               placeholder="Enter your password"

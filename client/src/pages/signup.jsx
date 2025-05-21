@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom"
 const Signup2 = () => {
   const [form, setForm] = useState({});
   const [Loading ,setLoading] = useState(false)
   const [error ,seterror] = useState({})
- 
+  const navigate = useNavigate()
   const handleChange = (e) => {
-
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -21,6 +21,7 @@ const Signup2 = () => {
         body: JSON.stringify(form),
       });
       const data = await res.json();
+  
       if(data.success == false){
         setLoading(false)
         seterror(data.message)
@@ -28,13 +29,13 @@ const Signup2 = () => {
       }
       console.log(data);
       setLoading(false)
+      seterror(null)
+      navigate("/signin")
     } catch (err) {
      setLoading(false)
      seterror(error.message)
     }
   };
-
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-rose-300 px-4">
       <div className="bg-white shadow-lg p-8 max-w-md w-full">
@@ -112,7 +113,11 @@ const Signup2 = () => {
             Signup with Google
           </button>
         </div>
-       
+    
+        {
+          error && <span className="text-red-800">{error.message}</span>
+        }
+     
       </div>
     </div>
   );

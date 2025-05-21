@@ -10,7 +10,11 @@ const  port = 9005;
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-DBConnections(process.env.MONGO_URI)
+DBConnections(process.env.MONGO_URI,{
+    useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 10000, // optional but useful
+})
   .then(() => {
     console.log("Server can start now");
   })
