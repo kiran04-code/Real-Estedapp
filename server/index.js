@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express  from "express"
 import routes from "./routes/user.js"
-import DBConnections from "./config/mongoose.js"
+import {DBConnections} from "./config/mongoose.js"
 
 const app = express()
 
@@ -10,17 +10,11 @@ const  port = 9005;
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-DBConnections(process.env.MONGO_URI,{
-    useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 10000, // optional but useful
-})
-  .then(() => {
-    console.log("Server can start now");
+DBConnections(process.env.MONGO_URI).then(()=>{
+  console.log("MongoDB is Connected")
+}).catch((err)=>{
+    console.log("MongoDb  server Error",err)
   })
-  .catch(err => {
-    console.error("Failed to connect to DB:", err);
-  });
   app.get("/",(req,res)=>{
     res.render()
   })
