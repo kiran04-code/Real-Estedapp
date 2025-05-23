@@ -12,7 +12,7 @@ const Signin = () => {
    try {
     const res = await fetch("api/signin",{
       method:"POST",
-      headers:{
+      o:{
         "Content-type" :"application/json"
       },
       body:JSON.stringify(fromData)

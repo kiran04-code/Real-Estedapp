@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express  from "express"
 import routes from "./routes/user.js"
-import DBConnections from "./config/mongoose.js"
+import {DBConnections} from "./config/mongoose.js"
 
 const app = express()
 

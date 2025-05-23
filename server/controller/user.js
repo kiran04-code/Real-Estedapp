@@ -6,7 +6,7 @@ import { createToken } from "../authjwt/jwt.js";
 export const createUser = async (req, res,next) => {
   try {
     const { username, email, password } = req.body;
-    const data2 = user.findOne({email})
+    const data2 = user.findOne({email:email})
     const hashpassword = bcrypt.hashSync(password,10) 
     const data = await user.create({
       username,
