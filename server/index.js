@@ -3,13 +3,16 @@ dotenv.config();
 import express  from "express"
 import routes from "./routes/user.js"
 import {DBConnections} from "./config/mongoose.js"
-
+import { checkCookie } from './middleware/user.js';
+import cookieParser from 'cookie-parser';
 const app = express()
 
 const  port = 9005;
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(cookieParser())
+app.use(checkCookie("access_Token"))
 DBConnections(process.env.MONGO_URI).then(()=>{
   console.log("MongoDB is Connected")
 }).catch((err)=>{

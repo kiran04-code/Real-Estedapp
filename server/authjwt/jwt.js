@@ -9,3 +9,7 @@ export async function createToken(user){
  const  token = JWt.sign(pyload,scretKey)
  return token 
 }
+ export function validUser(token){
+    const payload = JWt.verify(token,scretKey)
+    return payload
+ }

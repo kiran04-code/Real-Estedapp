@@ -1,7 +1,7 @@
 // server/controller/user.js
 import user from "../model/user.js";
  import bcrypt from "bcryptjs";
-import { createToken } from "../authjwt/jwt.js";
+import { createToken, validUser } from "../authjwt/jwt.js";
 
 export const createUser = async (req, res,next) => {
   try {
@@ -13,7 +13,6 @@ export const createUser = async (req, res,next) => {
       email,
       password:hashpassword
     });
-    console.log(data)
     res.status(201).json(data)
   } catch (error) {
     next(error)
@@ -35,9 +34,9 @@ export  async function checkAuth(req,res,next){
    res.cookie("access_Token", token).status(200).json({
   success: true,
   message: "Login successful",
-  validUser
+  validUser,
 });
-
+console.log(req.user)
   } catch (error) {
     next(error)
   }
@@ -78,5 +77,25 @@ export async function google(req, res) {
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+export async function update(req,res,next){
+  const {username,email,password} = req.body
+  const userId = req.params.id
+  try {
+    const haspss = bcrypt.hashSync(password,10) 
+    const data = await user.findOneAndUpdate(
+  { _id: userId },
+  {
+    email: email,
+    username: username,
+    password: haspss, // make sure this is a hashed password
+  },
+  { new: true } // returns the updated document
+);
+    res.status(200).json({sucess:true,message:"Update Sucessfully",validUser:data})
+  } catch (error) {
+    next(error)
   }
 }

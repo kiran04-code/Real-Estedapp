@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const {currentUser} = useSelector(state=>state.user)
   return (
     <nav className="bg-rose-700 text-white p-4 rounded-bl-[120px] rounded-br-[120px]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
@@ -42,9 +44,13 @@ export default function Navbar() {
           <a href="/about" className="text-black px-3 rounded-xl flex items-center justify-center" style={{ backgroundColor: "white" }}>
             About
           </a>
-          <a href="/signin" className="text-black px-3 rounded-xl flex items-center justify-center" style={{ backgroundColor: "white" }}>
+          {
+            currentUser ? <a href="/Profile"><img className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-sm"src={currentUser.validUser.photo}/></a>:
+                <a href="/signin" className="text-black px-3 rounded-xl flex items-center justify-center" style={{ backgroundColor: "white" }}>
             Sign In
           </a>
+          }
+         
         </div>
       </div>
     </nav>
