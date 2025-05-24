@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.7",
     "aos": "^2.3.4",
+    "firebase": "^11.8.1",
     "install": "^0.13.0",
     "npm": "^11.4.0",
     "react": "^19.1.0",

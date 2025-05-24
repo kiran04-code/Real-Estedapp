@@ -42,3 +42,41 @@ export  async function checkAuth(req,res,next){
     next(error)
   }
 }
+export async function google(req, res) {
+  try {
+    const { username, email, photo } = req.body;
+
+
+    const validUser = await user.findOne({ email: email });
+
+    if (validUser) {
+      const token = createToken(validUser);
+      return res
+        .cookie("access_Token", token, { httpOnly: true })
+        .status(200)
+        .json({ success: true, message: "User logged in",  validUser});
+    }
+
+  
+    const createPass = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    const hashGenerated = bcrypt.hashSync(createPass, 10);
+    console.log("Generated password for Google signup:", createPass);
+
+  
+    const newUser = await user.create({
+      email,
+      username,
+      photo,
+      password: hashGenerated,
+    });
+
+    const token = createToken(newUser);
+    res
+      .cookie("access_Token", token, { httpOnly: true })
+      .status(200)
+      .json({ success: true, message: "Signup successful", user: newUser });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+}

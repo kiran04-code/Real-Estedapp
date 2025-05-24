@@ -12,6 +12,10 @@ const UserSchema = new  mongoose.Schema({
     password:{
         type:String,
         require:true
+    },
+    photo:{
+        type:String,
+        default:"https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg"
     }
 })
 

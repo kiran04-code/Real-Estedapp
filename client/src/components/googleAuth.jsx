@@ -1,10 +1,39 @@
 import React from "react"
-
+import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import { app } from "../firebase"
+import { useDispatch } from "react-redux"
+import {useNavigate} from "react-router-dom"
+import {signinSuccess} from "../redux/userData/userSlice"
 const Google = () =>{
+ const dispatch = useDispatch()
+ const naviagete = useNavigate()
+  const  handleGoogleAuth = async () =>{
+    try {
+
+      const provider = new GoogleAuthProvider()
+      const auth = getAuth(app)
+      const result = await signInWithPopup(auth,provider)
+     const res = await fetch("api/google",{
+        method:"POST",
+        headers:{
+          "Content-type":"application/json"
+        },
+        body:JSON.stringify({username:result.user.displayName,email:result.user.email,photo:result.user.photoURL})
+      })
+     const data = await res.json()
+     console.log(data)
+     if(data.success){
+      naviagete("/")
+         dispatch(signinSuccess(data))
+     }
+    } catch (error) {
+      console.log("can not  signout with  google:",error)
+    }
+  }
     return(
  <div className="mt-6 flex items-center justify-center space-x-3">
           <button
-  
+           type="submit" onClick={handleGoogleAuth}
             className="flex items-center justify-center gap-2 border border-rose-700 text-rose-700 font-semibold px-4 py-2 rounded-md hover:bg-rose-700 hover:text-white transition"
           >
             {/* Google icon SVG */}
