@@ -13,6 +13,7 @@ export const createUser = async (req, res,next) => {
       email,
       password:hashpassword
     });
+    console.log(data)
     res.status(201).json(data)
   } catch (error) {
     next(error)

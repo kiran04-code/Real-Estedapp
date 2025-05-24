@@ -1,19 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Google from "../components/googleAuth"
+import { signinStart, signinSuccess, signinFail } from '../redux/userData/userSlice'
+import {useDispatch,useSelector} from "react-redux"
+import  Google from "../components/googleAuth"
 const Signin = () => {
+  const  dispatch =  useDispatch()
   const navigate = useNavigate();
+  const  {Loading} =  useSelector(state =>state.user)
   const [fromData,setFromData] = useState({})
-  const [Loading,setLoading] = useState(false)
   const [errors,setError] = useState(false)
   const  handleChange = (e)=>{
   setFromData({...fromData,[e.target.id]:e.target.value})
   }
   const handleonsubmit = async (e)=>{
     e.preventDefault();
-    setLoading(true)
    try {
+  dispatch(signinStart())
     const res = await fetch("api/signin",{
       method:"POST",
       headers:{
@@ -23,15 +26,15 @@ const Signin = () => {
     }) 
     const data = await res.json()
     console.log(data)
-    setLoading(false)
-   if (data.success) {
+    if (data.success) {
    navigate("/");
+   dispatch(signinSuccess(data))
     } else {
     setError(data);
+    dispatch(signinFail())
    }
    } catch (error) {
-   setError(data)
-   setLoading(false)
+    setError(error);
    }
   }
   return (
@@ -73,7 +76,7 @@ const Signin = () => {
           </div>
 
           <button
-            
+            disabled={Loading}
             type="submit"
             className="w-full bg-rose-700 text-white font-semibold py-2 rounded-md hover:bg-rose-800 transition"
           >
