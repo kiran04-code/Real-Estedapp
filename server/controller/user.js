@@ -6,14 +6,13 @@ import { createToken } from "../authjwt/jwt.js";
 export const createUser = async (req, res,next) => {
   try {
     const { username, email, password } = req.body;
-    const data2 = user.findOne({email:email})
+    user.findOne({email})
     const hashpassword = bcrypt.hashSync(password,10) 
     const data = await user.create({
       username,
       email,
       password:hashpassword
     });
-    console.log(data);
     res.status(201).json(data)
   } catch (error) {
     next(error)
@@ -32,7 +31,12 @@ export  async function checkAuth(req,res,next){
       return res.status(401).json({error:"password is Incorrect"})
     }
     const token = createToken(validUser)
-    res.cookie("access_Token" ,token).status(200).json(validUser);
+   res.cookie("access_Token", token).status(200).json({
+  success: true,
+  message: "Login successful",
+  validUser
+});
+
   } catch (error) {
     next(error)
   }
