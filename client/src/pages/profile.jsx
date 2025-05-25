@@ -150,6 +150,12 @@ const Profile = () => {
           >
             Delete Account
           </button>
+          <button
+            type="button"
+            className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+          >
+          <a href="/listing">  CreateList</a>
+          </button>
         </div>
       </form>
       <Footer />

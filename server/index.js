@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express  from "express"
 import routes from "./routes/user.js"
+import routess from './routes/listing.js';
 import {DBConnections} from "./config/mongoose.js"
 import { checkCookie } from './middleware/user.js';
 import cookieParser from 'cookie-parser';
@@ -22,6 +23,7 @@ DBConnections(process.env.MONGO_URI).then(()=>{
     res.render()
   })
   app.use("/api",routes)
+  app.use("/api",routess)
 
   app.listen(port,(req,res)=>{
     console.log(`server is Running on Port ${port}`)
