@@ -102,5 +102,15 @@ export async function update(req,res,next){
 export async function Delete(req,res,next){
     const Id = req.params.Id
     await user.findByIdAndDelete(Id)
-    res.status(200).json("account Delete").clearCookie("access_token");
+    res.clearCookie("access_Token");
+    res.status(200).json("account Delete")
+}
+
+export async function Signout(req,res,next){
+  try {
+    res.clearCookie("access_Token")
+    res.status(200).json("Signout Sucess")
+  } catch (error) {
+    next(error)
+  }
 }

@@ -3,7 +3,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { data, useNavigate } from "react-router-dom";
-import {signinSuccess,signinStart,deleteStart,deleteFail,deleteSuccess} from "../redux/userData/userSlice"
+import {signinSuccess,signinStart,deleteStart,deleteFail,deleteSuccess,signoutFail,signoutStart,signoutSuccess} from "../redux/userData/userSlice"
 
 
 const Profile = () => {
@@ -47,12 +47,19 @@ const Profile = () => {
     })
     const data = await res.json()
         setError(data)
-        dispatch(deleteSuccess(data))
+        dispatch(deleteSuccess())
   } catch (error) {
     setError(error)
     dispatch(deleteFail())
   }
 
+  }
+  const handlesignout = async()=>{
+    dispatch(signoutStart())
+    const res = await fetch("api/signout")
+    const data = await res.json()
+    console.log(data)
+    dispatch(signoutSuccess())
   }
   return (
     <div className="min-h-screen bg-gray-100">
@@ -128,10 +135,13 @@ const Profile = () => {
             }
           </button>
           <button
+          onClick={handlesignout}
             type="button"
             className="bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition"
           >
-            Sign Out
+            {
+              Loading ? "SignOut....":"SignOut"
+            }
           </button>
           <button
           onClick={handledelete}
