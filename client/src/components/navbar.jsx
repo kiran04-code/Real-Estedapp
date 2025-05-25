@@ -44,13 +44,25 @@ export default function Navbar() {
           <a href="/about" className="text-black px-3 rounded-xl flex items-center justify-center" style={{ backgroundColor: "white" }}>
             About
           </a>
-          {
-            currentUser ? <a href="/Profile"><img className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-sm"src={currentUser.validUser.photo}/></a>:
-                <a href="/signin" className="text-black px-3 rounded-xl flex items-center justify-center" style={{ backgroundColor: "white" }}>
-            Sign In
-          </a>
-          }
-         
+         {
+  currentUser?.validUser?.photo ? (
+    <a href="/Profile">
+      <img
+        className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-sm"
+        src={currentUser.validUser.photo}
+        alt="Profile"
+      />
+    </a>
+  ) : (
+    <a
+      href="/signin"
+      className="text-black px-3 rounded-xl flex items-center justify-center"
+      style={{ backgroundColor: "white" }}
+    >
+      Sign In
+    </a>
+  )
+}  
         </div>
       </div>
     </nav>

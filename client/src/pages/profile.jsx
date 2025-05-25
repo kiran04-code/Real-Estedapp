@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {signinSuccess} from "../redux/userData/userSlice"
+import { data, useNavigate } from "react-router-dom";
+import {signinSuccess,signinStart,deleteStart,deleteFail,deleteSuccess} from "../redux/userData/userSlice"
 
 
 const Profile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser,Loading } = useSelector((state) => state.user);
   const dispatch = useDispatch()
   const naviagete =useNavigate()
   const [form, setForm] = useState({
@@ -21,6 +21,7 @@ const Profile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault(); // prevent default form submission
     try {
+        dispatch(signinStart())
       const res = await fetch(`/api/update/${currentUser.validUser._id}`, {
         method: "POST",
         headers: {
@@ -33,15 +34,24 @@ const Profile = () => {
       setError(data);
       if(data.sucess){
         naviagete("/Profile")
-     dispatch(signinSuccess(data))      }
+     dispatch(signinSuccess(data))    
+      }
     } catch (error) {
       console.error("Update error:", error);
     }
   };
   const handledelete =  async() =>{
+  try {
     const res = await fetch(`api/delete/${currentUser.validUser._id}`,{
-        method:"GET"
+      method:"DELETE",
     })
+    const data = await res.json()
+        setError(data)
+        dispatch(deleteSuccess(data))
+  } catch (error) {
+    setError(error)
+    dispatch(deleteFail())
+  }
 
   }
   return (
@@ -113,7 +123,9 @@ const Profile = () => {
             type="submit"
             className="bg-red-700 text-white py-2 rounded-lg hover:bg-red-800 transition"
           >
-            Update Profile
+            {
+                Loading ? "Updating...":"update"
+            }
           </button>
           <button
             type="button"
@@ -122,6 +134,7 @@ const Profile = () => {
             Sign Out
           </button>
           <button
+          onClick={handledelete}
             type="button"
             className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
           >

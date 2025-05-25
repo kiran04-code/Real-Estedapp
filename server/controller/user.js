@@ -99,3 +99,8 @@ export async function update(req,res,next){
     next(error)
   }
 }
+export async function Delete(req,res,next){
+    const Id = req.params.Id
+    await user.findByIdAndDelete(Id)
+    res.status(200).json("account Delete").clearCookie("access_token");
+}
