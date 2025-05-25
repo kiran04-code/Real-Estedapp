@@ -24,11 +24,9 @@ const listSchema = new mongoose.Schema({
     },
     bathroom: {
         type: Number,
-        require: true
     },
     badroom: {
         type: Number,
-        require: true
     },
     parking: {
         type: Boolean,
@@ -47,7 +45,7 @@ const listSchema = new mongoose.Schema({
         require: true
     },
     ImageUrls: {
-        type: Array,
+        type: Buffer,
         require: true
     },
     createdby: {
