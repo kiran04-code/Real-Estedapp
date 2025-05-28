@@ -5,12 +5,12 @@ export function checkCookie(cookieName) {
     const token = req.cookies[cookieName];
 
     if (!token || typeof token !== "string") {
-      // If no token, just continue to the next middleware (unauthenticated)
       return next();
     }
 
-      const payload = validUser(token); // should return decoded JWT payload
+      const payload = validUser(token); 
       req.user = payload;
-      next(); // Call next regardless of token validity
+      console.log("User is authenticated", req.user);
+      next(); 
   };
 }

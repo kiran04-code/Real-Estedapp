@@ -1,8 +1,23 @@
-import { validUser } from "../authjwt/jwt.js"
+
 import list from "../model/list.js"
 
 export async function listing(req, res) {
-    const data = await list.create(req.body)
+    const { name, decription, address, priceregular, priceDiscounded, bathroom, badroom, parking, furnish, offer, type } = req.body;
+    const data = await list.create({
+        name,
+        decription,
+        address,
+        priceregular,
+        priceDiscounded,
+        bathroom,
+        badroom,
+        parking,
+        furnish,
+        offer,
+        type,
+        createdby: req.user._id
+    })
+    console.log(data)
     res.status(201).json({
         sucess:true,
         massage:"List Created",

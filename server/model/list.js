@@ -44,10 +44,6 @@ const listSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    ImageUrls: {
-        type: Buffer,
-        require: true
-    },
     createdby: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",

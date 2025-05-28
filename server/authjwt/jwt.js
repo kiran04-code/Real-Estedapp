@@ -11,5 +11,8 @@ export async function createToken(user){
 }
  export function validUser(token){
     const payload = JWt.verify(token,scretKey)
+    if(!payload){
+        throw new Error("Invalid token")
+    }
     return payload
  }
