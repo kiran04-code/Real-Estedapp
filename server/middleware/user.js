@@ -5,12 +5,19 @@ export function checkCookie(cookieName) {
     const token = req.cookies[cookieName];
 
     if (!token || typeof token !== "string") {
-      return next();
+      return next(); // No token found, continue without user
     }
-
-      const payload = validUser(token); 
+    try {
+      const payload = validUser(token);
+      if (!payload) {
+        return next(); // Token is invalid, continue without user
+      }
       req.user = payload;
       console.log("User is authenticated", req.user);
-      next(); 
+    } catch (err) {
+      console.error("Token validation failed:", err.message || err);
+      // Optionally: you could clear the invalid cookie or respond with an error
+    }
+    next();
   };
 }

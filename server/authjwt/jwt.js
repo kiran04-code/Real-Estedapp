@@ -1,18 +1,22 @@
-import JWt from "jsonwebtoken"
-const scretKey = "kiran9090@"
-export async function createToken(user){
-    const pyload = {
-        _id:user._id,
-        email:user.email,
-        password:user.password
-    }
- const  token = JWt.sign(pyload,scretKey)
- return token 
+import jwt from "jsonwebtoken";
+
+const secretKey = process.env.JWT_SECRET || "Kiran@9090"; // Use env var in production
+
+export async function createToken(user) {
+  const payload = {
+    _id: user._id,
+    email: user.email
+  };
+
+  const token = jwt.sign(payload, secretKey);
+ return token;
 }
- export function validUser(token){
-    const payload = JWt.verify(token,scretKey)
-    if(!payload){
-        throw new Error("Invalid token")
-    }
-    return payload
- }
+
+export function validUser(token) {
+  try {
+    const payload = jwt.verify(token, secretKey);
+    return payload;
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
+}

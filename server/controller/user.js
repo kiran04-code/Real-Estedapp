@@ -1,7 +1,7 @@
 // server/controller/user.js
 import user from "../model/user.js";
 import bcrypt from "bcryptjs";
-import { createToken, validUser } from "../authjwt/jwt.js";
+import { createToken } from "../authjwt/jwt.js";
 
 export const createUser = async (req, res, next) => {
   try {

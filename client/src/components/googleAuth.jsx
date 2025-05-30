@@ -21,7 +21,6 @@ const Google = () =>{
         body:JSON.stringify({username:result.user.displayName,email:result.user.email,photo:result.user.photoURL})
       })
      const data = await res.json()
-     console.log(data)
      if(data.success){
       naviagete("/")
          dispatch(signinSuccess(data))
